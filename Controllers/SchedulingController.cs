@@ -15,6 +15,13 @@ public class SchedulingController : ControllerBase
         _schedulingService = schedulingService;
     }
 
+    [HttpGet]
+    [Route("schedulings")]
+    public async Task<IActionResult> GetAllSchedulings()
+    {
+        return Ok(await _schedulingService.GetAllSchedulings());
+    }
+
     [HttpPost]
     [Route("scheduling")]
     public async Task<IActionResult> ScheduleMessage(CreateSchedulingDto createSchedulingDto)

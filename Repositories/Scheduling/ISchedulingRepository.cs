@@ -5,5 +5,6 @@ namespace desafio_magalu.Repositories.Scheduling;
 
 public interface ISchedulingRepository
 {
+    Task<List<SchedulingModel>> GetAllSchedulings();
     Task<SchedulingModel> ScheduleMessage(CreateSchedulingDto createSchedulingDto);
 }

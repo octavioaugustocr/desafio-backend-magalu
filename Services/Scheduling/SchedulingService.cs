@@ -13,6 +13,11 @@ public class SchedulingService : ISchedulingService
         _schedulingRepository = schedulingRepository;
     }
 
+    public async Task<List<SchedulingModel>> GetAllSchedulings()
+    {
+        return await _schedulingRepository.GetAllSchedulings();
+    }
+
     public async Task<SchedulingModel> ScheduleMessage(CreateSchedulingDto createSchedulingDto)
     {
         return await _schedulingRepository.ScheduleMessage(createSchedulingDto);
