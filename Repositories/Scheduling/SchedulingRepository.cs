@@ -2,6 +2,8 @@
 using desafio_magalu.Dtos;
 using desafio_magalu.Enums;
 using desafio_magalu.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_magalu.Repositories.Scheduling;
@@ -20,6 +22,11 @@ public class SchedulingRepository : ISchedulingRepository
         if (createSchedulingDto.DateTimeOfSubmission < DateTime.Now) return false;
         
         return true;
+    }
+
+    public async Task<SchedulingModel> GetSchedulingById(int id)
+    {
+        return await _appDbContext.Schedulings.FindAsync(id);
     }
 
     public async Task<List<SchedulingModel>> GetAllSchedulings()

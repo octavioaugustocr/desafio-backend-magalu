@@ -14,6 +14,12 @@ public class SchedulingController : ControllerBase
     {
         _schedulingService = schedulingService;
     }
+    
+    [HttpGet("scheduling/{id}")]
+    public async Task<IActionResult> GetSchedulingById(int id)
+    {
+        return Ok(await _schedulingService.GetSchedulingById(id));
+    }
 
     [HttpGet]
     [Route("schedulings")]

@@ -13,6 +13,11 @@ public class SchedulingService : ISchedulingService
         _schedulingRepository = schedulingRepository;
     }
 
+    public async Task<SchedulingModel> GetSchedulingById(int id)
+    {
+        return await _schedulingRepository.GetSchedulingById(id);
+    }
+
     public async Task<List<SchedulingModel>> GetAllSchedulings()
     {
         return await _schedulingRepository.GetAllSchedulings();
