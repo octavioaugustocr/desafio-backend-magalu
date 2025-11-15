@@ -37,4 +37,9 @@ public class SchedulingService : ISchedulingService
     {
         return await _schedulingRepository.CancelScheduling(id);
     }
+
+    public async Task<string> DeleteScheduling(int id)
+    {
+        return await _schedulingRepository.DeleteScheduling(id);
+    }
 }

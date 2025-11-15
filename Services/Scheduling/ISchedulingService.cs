@@ -10,4 +10,5 @@ public interface ISchedulingService
     Task<SchedulingModel> ScheduleMessage(CreateSchedulingDto createSchedulingDto);
     Task<SchedulingModel> ChangeScheduling(int id, UpdateSchedulingDto updateSchedulingDto);
     Task<SchedulingModel> CancelScheduling(int id);
+    Task<string> DeleteScheduling(int id);
 }

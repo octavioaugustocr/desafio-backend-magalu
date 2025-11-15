@@ -48,4 +48,11 @@ public class SchedulingController : ControllerBase
     {
         return Ok(await _schedulingService.CancelScheduling(id));
     }
+
+    [HttpDelete]
+    [Route("scheduling/delete/{id}")]
+    public async Task<IActionResult> DeleteScheduling(int id)
+    {
+        return Ok(await _schedulingService.DeleteScheduling(id));
+    }
 }

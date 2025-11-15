@@ -92,4 +92,15 @@ public class SchedulingRepository : ISchedulingRepository
         
         return schedulingModel;
     }
+
+    public async Task<string> DeleteScheduling(int id)
+    {
+        var schedulingModel = await _appDbContext.Schedulings.FindAsync(id);
+        if (schedulingModel is null) return $"Não foi encontrado agendamento de mensagem com o ID {id}!";
+
+        _appDbContext.Schedulings.Remove(schedulingModel);
+        await _appDbContext.SaveChangesAsync();
+
+        return $"Agendamento de mensagem com ID {id} excluido com sucesso!";
+    }
 }
