@@ -27,4 +27,9 @@ public class SchedulingService : ISchedulingService
     {
         return await _schedulingRepository.ScheduleMessage(createSchedulingDto);
     }
+
+    public async Task<SchedulingModel> ChangeScheduling(int id, UpdateSchedulingDto updateSchedulingDto)
+    {
+        return await _schedulingRepository.ChangeScheduling(id, updateSchedulingDto);
+    }
 }

@@ -4,6 +4,7 @@ public enum StatsEnum
 {
     Canceled = 1,
     Scheduled = 2,
-    Postponed = 3,
-    Sent = 4
+    Edited = 3,
+    Postponed = 4,
+    Sent = 5
 }

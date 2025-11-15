@@ -52,4 +52,32 @@ public class SchedulingRepository : ISchedulingRepository
         
         return schedulingModel;
     }
+
+    public async Task<SchedulingModel> ChangeScheduling(int id, UpdateSchedulingDto updateSchedulingDto)
+    {
+        var schedulingModel = await _appDbContext.Schedulings.FindAsync(id);
+        if (schedulingModel == null) return null;
+
+        if (updateSchedulingDto.DateTimeOfSubmission > schedulingModel.DateTimeOfSubmission)
+        {
+            schedulingModel.DateTimeOfSubmission = updateSchedulingDto.DateTimeOfSubmission;
+            schedulingModel.Recipient = updateSchedulingDto.Recipient;
+            schedulingModel.Message = updateSchedulingDto.Message;
+            schedulingModel.Channel = updateSchedulingDto.Channel;
+            schedulingModel.Stats = StatsEnum.Postponed;
+        }
+        else
+        {
+            schedulingModel.DateTimeOfSubmission = updateSchedulingDto.DateTimeOfSubmission;
+            schedulingModel.Recipient = updateSchedulingDto.Recipient;
+            schedulingModel.Message = updateSchedulingDto.Message;
+            schedulingModel.Channel = updateSchedulingDto.Channel;
+            schedulingModel.Stats = StatsEnum.Edited;
+        }
+
+        _appDbContext.Schedulings.Update(schedulingModel);
+        await _appDbContext.SaveChangesAsync();
+        
+        return schedulingModel;
+    }
 }

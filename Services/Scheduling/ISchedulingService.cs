@@ -8,4 +8,5 @@ public interface ISchedulingService
     Task<SchedulingModel> GetSchedulingById(int id);
     Task<List<SchedulingModel>> GetAllSchedulings();
     Task<SchedulingModel> ScheduleMessage(CreateSchedulingDto createSchedulingDto);
+    Task<SchedulingModel> ChangeScheduling(int id, UpdateSchedulingDto updateSchedulingDto);
 }

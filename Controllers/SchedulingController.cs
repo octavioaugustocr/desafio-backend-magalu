@@ -34,4 +34,11 @@ public class SchedulingController : ControllerBase
     {
         return Ok(await _schedulingService.ScheduleMessage(createSchedulingDto));
     }
+
+    [HttpPut]
+    [Route("scheduling/change/{id}")]
+    public async Task<IActionResult> ChangeScheduling(int id, UpdateSchedulingDto updateSchedulingDto)
+    {
+        return Ok(await _schedulingService.ChangeScheduling(id, updateSchedulingDto));
+    }
 }
