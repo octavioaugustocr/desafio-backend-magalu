@@ -32,4 +32,9 @@ public class SchedulingService : ISchedulingService
     {
         return await _schedulingRepository.ChangeScheduling(id, updateSchedulingDto);
     }
+
+    public async Task<SchedulingModel> CancelScheduling(int id)
+    {
+        return await _schedulingRepository.CancelScheduling(id);
+    }
 }

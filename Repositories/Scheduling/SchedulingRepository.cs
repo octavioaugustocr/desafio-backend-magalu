@@ -80,4 +80,16 @@ public class SchedulingRepository : ISchedulingRepository
         
         return schedulingModel;
     }
+    
+    public async Task<SchedulingModel> CancelScheduling(int id)
+    {
+        var schedulingModel = await _appDbContext.Schedulings.FindAsync(id);
+        if (schedulingModel == null) return null;
+        
+        schedulingModel.Stats = StatsEnum.Canceled;
+        _appDbContext.Schedulings.Update(schedulingModel);
+        await _appDbContext.SaveChangesAsync();
+        
+        return schedulingModel;
+    }
 }
