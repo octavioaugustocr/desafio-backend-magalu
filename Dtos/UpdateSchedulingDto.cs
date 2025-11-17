@@ -16,4 +16,16 @@ public class UpdateSchedulingDto
     
     [Required(ErrorMessage = "Informe o canal que a mensagem vai ser enviada")]
     public ChannelEnum Channel { get; set; }
+
+    private StatsEnum Stats { get; set; }
+
+    public void setStatus(StatsEnum stats)
+    {
+        this.Stats = stats;
+    }
+
+    public StatsEnum getStatus()
+    {
+        return this.Stats;
+    }
 }

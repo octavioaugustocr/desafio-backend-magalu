@@ -1,4 +1,5 @@
 ﻿using desafio_magalu.Dtos;
+using desafio_magalu.Enums;
 using desafio_magalu.Models;
 using desafio_magalu.Repositories.Scheduling;
 
@@ -11,6 +12,11 @@ public class SchedulingService : ISchedulingService
     public SchedulingService(ISchedulingRepository schedulingRepository)
     {
         _schedulingRepository = schedulingRepository;
+    }
+    
+    private bool ValidationsScheduleMessage(CreateSchedulingDto createSchedulingDto)
+    {
+        return createSchedulingDto.DateTimeOfSubmission >= DateTime.Now;
     }
 
     public async Task<SchedulingModel> GetSchedulingById(int id)
@@ -25,11 +31,21 @@ public class SchedulingService : ISchedulingService
 
     public async Task<SchedulingModel> ScheduleMessage(CreateSchedulingDto createSchedulingDto)
     {
+        if (!ValidationsScheduleMessage(createSchedulingDto)) return null;
+        
         return await _schedulingRepository.ScheduleMessage(createSchedulingDto);
     }
 
     public async Task<SchedulingModel> ChangeScheduling(int id, UpdateSchedulingDto updateSchedulingDto)
     {
+        var existingScheduling = await _schedulingRepository.GetSchedulingById(id);
+        if (existingScheduling == null) return null;
+        
+        if (updateSchedulingDto.DateTimeOfSubmission > existingScheduling.DateTimeOfSubmission)
+            updateSchedulingDto.setStatus(StatsEnum.Postponed);
+        else
+            updateSchedulingDto.setStatus(StatsEnum.Edited);
+        
         return await _schedulingRepository.ChangeScheduling(id, updateSchedulingDto);
     }
 

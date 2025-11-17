@@ -17,13 +17,6 @@ public class SchedulingRepository : ISchedulingRepository
         _appDbContext = appDbContext;
     }
 
-    private bool ValidationsScheduleMessage(CreateSchedulingDto createSchedulingDto)
-    {
-        if (createSchedulingDto.DateTimeOfSubmission < DateTime.Now) return false;
-        
-        return true;
-    }
-
     public async Task<SchedulingModel> GetSchedulingById(int id)
     {
         return await _appDbContext.Schedulings.FindAsync(id);
@@ -36,8 +29,6 @@ public class SchedulingRepository : ISchedulingRepository
 
     public async Task<SchedulingModel> ScheduleMessage(CreateSchedulingDto createSchedulingDto)
     {
-        if (!ValidationsScheduleMessage(createSchedulingDto)) return null;
-        
         var schedulingModel = new SchedulingModel()
         {
             DateTimeOfSubmission = createSchedulingDto.DateTimeOfSubmission,
@@ -49,7 +40,7 @@ public class SchedulingRepository : ISchedulingRepository
 
         await _appDbContext.Schedulings.AddAsync(schedulingModel);
         await _appDbContext.SaveChangesAsync();
-        
+
         return schedulingModel;
     }
 
@@ -57,39 +48,29 @@ public class SchedulingRepository : ISchedulingRepository
     {
         var schedulingModel = await _appDbContext.Schedulings.FindAsync(id);
         if (schedulingModel == null) return null;
-
-        if (updateSchedulingDto.DateTimeOfSubmission > schedulingModel.DateTimeOfSubmission)
-        {
-            schedulingModel.DateTimeOfSubmission = updateSchedulingDto.DateTimeOfSubmission;
-            schedulingModel.Recipient = updateSchedulingDto.Recipient;
-            schedulingModel.Message = updateSchedulingDto.Message;
-            schedulingModel.Channel = updateSchedulingDto.Channel;
-            schedulingModel.Stats = StatsEnum.Postponed;
-        }
-        else
-        {
-            schedulingModel.DateTimeOfSubmission = updateSchedulingDto.DateTimeOfSubmission;
-            schedulingModel.Recipient = updateSchedulingDto.Recipient;
-            schedulingModel.Message = updateSchedulingDto.Message;
-            schedulingModel.Channel = updateSchedulingDto.Channel;
-            schedulingModel.Stats = StatsEnum.Edited;
-        }
+        
+        schedulingModel.DateTimeOfSubmission = updateSchedulingDto.DateTimeOfSubmission;
+        schedulingModel.Recipient = updateSchedulingDto.Recipient;
+        schedulingModel.Message = updateSchedulingDto.Message;
+        schedulingModel.Channel = updateSchedulingDto.Channel;
+        schedulingModel.Stats = updateSchedulingDto.getStatus();
 
         _appDbContext.Schedulings.Update(schedulingModel);
         await _appDbContext.SaveChangesAsync();
-        
+
         return schedulingModel;
     }
-    
+
     public async Task<SchedulingModel> CancelScheduling(int id)
     {
         var schedulingModel = await _appDbContext.Schedulings.FindAsync(id);
         if (schedulingModel == null) return null;
-        
+
         schedulingModel.Stats = StatsEnum.Canceled;
+        
         _appDbContext.Schedulings.Update(schedulingModel);
         await _appDbContext.SaveChangesAsync();
-        
+
         return schedulingModel;
     }
 
